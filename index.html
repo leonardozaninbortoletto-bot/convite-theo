@@ -691,10 +691,11 @@ function unlockAudio(el){
 function openShow(){
   if(started)return;started=true;
   audioInit();
-  /* destrava os áudios no gesto do toque; a música toca só na abertura da cortina */
+  /* destrava a música no gesto do toque; ela toca só na abertura da cortina */
   unlockAudio(document.getElementById('trilha'));
-  try{unlockAudio(voz2);}catch(e){}
   if(reduced){beginShow();return;}
+  /* locutor anuncia JÁ, no clique: "O espetáculo do grande amigo Theo irá começar!" */
+  fala(2);
   // 1) coloca o ingresso na bilheteria → 2) tela-título THEO → 3) elefante puxa e a cortina abre
   stage.classList.add('inserting');
   ticketClunk();
