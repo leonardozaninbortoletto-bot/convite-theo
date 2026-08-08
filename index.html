@@ -679,9 +679,21 @@ function beginShow(){
     setTimeout(()=>fala(2),500);
   },1950);
 }
+/* iOS/Android: destrava os áudios DURANTE o gesto do usuário, para poderem tocar depois */
+function unlockAudio(el){
+  if(!el)return;
+  try{
+    el.muted=true;
+    const p=el.play();
+    if(p&&p.then)p.then(()=>{el.pause();el.currentTime=0;el.muted=muted;}).catch(()=>{el.muted=muted;});
+    else{el.pause();el.currentTime=0;el.muted=muted;}
+  }catch(e){}
+}
 function openShow(){
   if(started)return;started=true;
   audioInit();
+  unlockAudio(document.getElementById('trilha'));
+  try{unlockAudio(voz2);}catch(e){}
   if(reduced){beginShow();return;}
   // 1) coloca o ingresso na bilheteria → 2) tela-título THEO → 3) elefante puxa e a cortina abre
   stage.classList.add('inserting');
